@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Главная страница</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <h1>Главная страница</h1>
+    <form id="form">
+    <input type="email" placeholder="email" id="email">
+    <input type="password" placeholder="password" id="password">
+    <button type="button" onclick="login()">Login</button>
+    <button type="button" onclick="register()">Register</button>
+    </form>
+    <span style="display: none;" class="error">Auth Error</span>
+    <script >
+        async function login(e) {
+  const err = document.querySelector('.error')
+  const form = document.querySelector('#form')
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  const data = {
+    email: email.value,
+    password: password.value,
+  };
+  try {
+    const res = await fetch("http://localhost:5000/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const jsonRes = await res.json()
+    if(jsonRes.token){
+        form.style = 'display: none'
+    }else{
+  err.style = 'display: inline; color: red;'
+    }
+  } catch (error) {
+  err.style = 'display: inline; color: red;'
+  }
+}
+
+async function register(e) {
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  const data = {
+    email: email.value,
+    password: password.value,
+  };
+  console.log(data);
+  await fetch("http://localhost:5000/auth/signup", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+}
+    </script>
+</body>
+<html>

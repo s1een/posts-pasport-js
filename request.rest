@@ -1,0 +1,65 @@
+POST http://localhost:5000/api/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo1LCJlbWFpbCI6InMxZWVuZmFjZWl0QGdtYWlsLmNvbSJ9LCJpYXQiOjE2NjQyMTU3Njd9.Dfs_0wBqcT5WYG8oiEbw9KB7vfgYzBUIyVL11u_iYL4
+
+{
+    "title": "My Test Post 332",
+    "text": "some text"
+}
+
+###
+
+GET http://localhost:5000/posts
+
+###
+
+GET  http://localhost:5000/posts/1
+
+
+###
+
+PUT  http://localhost:5000/api/posts/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6ImJkaWxsQGdtYWlsLmNvbSJ9LCJpYXQiOjE2NjQyMDcxNTN9.mc8iDNsh9nOBWnv08BlljqQVHprN5uHM5EyyI04VZRc
+
+{
+    "title": "WORLX!dada",
+    "text": "my text"
+}
+
+###
+POST   http://localhost:5000/api/users
+Content-Type: application/json
+
+{
+    "email": "alex@gmail.com",
+    "password": "123123"
+}
+
+###
+
+DELETE   http://localhost:5000/api/posts/10
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJlbWFpbCI6ImJkaWxsQGdtYWlsLmNvbSJ9LCJpYXQiOjE2NjQyMDcxNTN9.mc8iDNsh9nOBWnv08BlljqQVHprN5uHM5EyyI04VZRc
+
+
+###
+
+POST http://localhost:5000/auth/signup
+Content-Type: application/json
+
+{
+    "email": "s1eenfaceit@gmail.com",
+    "password": "123123"
+}
+
+###
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+    "email": "s1eenfaceit@gmail.com",
+    "password": "123123"
+}
+
+###
+POST http://localhost:5000/auth/logout
