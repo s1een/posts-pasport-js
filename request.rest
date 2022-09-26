@@ -61,5 +61,6 @@ Content-Type: application/json
     "password": "123123"
 }
 
+
 ###
 POST http://localhost:5000/auth/logout

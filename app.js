@@ -46,9 +46,9 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   connection.connect((error) => {
     if (error) {
-      return console.log("Ошибка подключения к БД!", error);
+      return console.log("Error connecting to database!", error);
     } else {
-      return console.log("Подлючение успешно!");
+      return console.log("Connected to DB!");
     }
   });
   console.log(`Server Started on port: ${PORT}`);

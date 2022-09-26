@@ -37,13 +37,8 @@ router.post("/login", async (req, res, next) => {
     }
   })(req, res, next);
 });
-router.post("/logout", async (req, res, next) => {
-  req.logOut((err) => {
-    if (err) {
-      return next(err);
-    }
-    res.redirect("/");
-    res.status(200).json("Empty");
-  });
+router.get("/logout", async (req, res, next) => {
+  req.logout();
+  res.redirect("/");
 });
 module.exports = router;
