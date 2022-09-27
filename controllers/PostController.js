@@ -1,11 +1,13 @@
 const { PrismaClient } = require("@prisma/client");
-const mailService = require("../service/mail-service");
 const prisma = new PrismaClient();
+
+const mailService = require("../service/MailService");
+const postService = require("../service/PostService");
 
 class PostController {
   async getAll(req, res, next) {
     try {
-      const posts = await prisma.posts.findMany();
+      const posts = await postService.getAll();
       if (posts.length === 0) {
         res.render("posts.hbs", {
           empty: "No posts yet.",
@@ -22,11 +24,7 @@ class PostController {
   async getUserPosts(req, res) {
     try {
       const { id } = req.params.id;
-      const posts = await prisma.posts.findMany({
-        where: {
-          authorId: id,
-        },
-      });
+      const posts = await postService.getUserPosts(id);
       if (posts.length === 0) {
         res.render("posts.hbs", {
           empty: "No posts yet.",
@@ -42,18 +40,7 @@ class PostController {
   }
   async getOne(req, res) {
     const { id } = req.params;
-
-    const post = await prisma.posts.findUnique({
-      where: {
-        id: +id,
-      },
-    });
-    const author = await prisma.users.findUnique({
-      where: {
-        id: post.authorId,
-      },
-    });
-    console.log(author);
+    const { post, author } = await postService.getOne(id);
     res.render("post.hbs", {
       title: post.title,
       text: post.text,
@@ -64,17 +51,7 @@ class PostController {
   async createPost(req, res) {
     const { title, text } = req.body;
     try {
-      const post = await prisma.posts.create({
-        data: {
-          title,
-          text,
-          authorId: req.user.user.id,
-        },
-      });
-      // send mail
-      const users = await prisma.users.findMany();
-      const mails = users.map((m) => m.email);
-      await mailService.sendMail(mails, post);
+      const post = await postService.createPost(title, text, req.user.user.id);
       res.status(201).json(post);
     } catch (error) {
       res.status(500).json(error);
@@ -83,25 +60,13 @@ class PostController {
   async editPost(req, res) {
     const { id } = req.params;
     const post = req.body;
-    const updateUser = await prisma.posts.update({
-      where: {
-        id: +id,
-      },
-      data: {
-        title: post.title,
-        text: post.text,
-      },
-    });
+    const updateUser = await postService.editPost(id, post);
     res.status(200).json(updateUser);
   }
   async deletePost(req, res) {
     try {
       const { id } = req.params;
-      const postToDelete = await prisma.posts.delete({
-        where: {
-          id: +id,
-        },
-      });
+      const postToDelete = await postService.deletePost(id);
       res.status(200).json(postToDelete);
     } catch (error) {
       res.status(500).json(error);

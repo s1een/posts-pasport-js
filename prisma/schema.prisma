@@ -21,7 +21,7 @@ model Posts{
   title String
   text String
   createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt @db.Timestamp(3)
+  updatedAt DateTime  @updatedAt
   author Users? @relation(fields: [authorId], references: [id])
   authorId Int?
 }
