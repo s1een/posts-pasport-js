@@ -26,11 +26,13 @@ router.post("/login", async (req, res, next) => {
 
         const body = { id: user.id, email: user.email };
         const token = jwt.sign({ user: body }, process.env.JWT_ACCESS_SECRET);
-        res.cookie("token", token, {
-          maxAge: 30 * 24 * 60 * 60 * 1000,
-          httpOnly: true,
-        });
-        return res.json({ token });
+        res
+          .cookie("token", token, {
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+            httpOnly: true,
+          })
+          .status(200)
+          .json({ token });
       });
     } catch (error) {
       return next(error);

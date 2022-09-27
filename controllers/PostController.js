@@ -1,30 +1,9 @@
-const { PrismaClient } = require("@prisma/client");
-const prisma = new PrismaClient();
-
-const mailService = require("../service/MailService");
 const postService = require("../service/PostService");
 
 class PostController {
   async getAll(req, res, next) {
     try {
       const posts = await postService.getAll();
-      if (posts.length === 0) {
-        res.render("posts.hbs", {
-          empty: "No posts yet.",
-        });
-        return;
-      }
-      res.render("posts.hbs", {
-        posts: posts,
-      });
-    } catch (error) {
-      res.status(500).json("No Posts");
-    }
-  }
-  async getUserPosts(req, res) {
-    try {
-      const { id } = req.params.id;
-      const posts = await postService.getUserPosts(id);
       if (posts.length === 0) {
         res.render("posts.hbs", {
           empty: "No posts yet.",
